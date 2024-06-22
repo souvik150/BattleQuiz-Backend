@@ -2,4 +2,4 @@
 
 ### API Documentation
 
-https://kc3ezpphx9.apidog.io/
+https://apidog.com/apidoc/project-574709

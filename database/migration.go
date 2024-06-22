@@ -5,5 +5,9 @@ import (
 )
 
 func Migrate() {
-    DB.AutoMigrate(&models.User{}, &models.MCQ{})
+	err := DB.AutoMigrate(&models.User{}, &models.MCQ{}, &models.Game{}, &models.Leaderboard{}).Error
+	if err != nil {
+		print("Failed to migrate database", err)
+		panic(err)
+	}
 }

@@ -20,12 +20,33 @@ func Connect() error {
 		return err
 	}
 
-	err = DB.AutoMigrate(&models.User{}, &models.MCQ{}).Error
+	err = DB.AutoMigrate(&models.User{}).Error
 	if err != nil {
-		log.Fatal("Failed to migrate database:", err)
-		return err
+		print("Failed to migrate user", err)
+		panic(err)
 	}
-	log.Println("Database migrated successfully")
+	log.Println("User migrated successfully")
+
+	err = DB.AutoMigrate(&models.MCQ{}).Error
+	if err != nil {
+		print("Failed to migrate mcq", err)
+		panic(err)
+	}
+	log.Println("MCQ migrated successfully")
+
+	err = DB.AutoMigrate(&models.Game{}).Error
+	if err != nil {
+		print("Failed to migrate game", err)
+		panic(err)
+	}
+	log.Println("Game migrated successfully")
+
+	err = DB.AutoMigrate(&models.Leaderboard{}).Error
+	if err != nil {
+		print("Failed to migrate leaderboard", err)
+		panic(err)
+	}
+	log.Println("Leaderboard migrated successfully")
 
 	return nil
 }

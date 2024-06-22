@@ -24,7 +24,7 @@ func UpdateMCQ(id string, input models.MCQ) error {
     mcq.Question = input.Question
     mcq.Options = input.Options
     mcq.CorrectAnswer = input.CorrectAnswer
-    mcq.DifficultyLevel = input.DifficultyLevel
+    mcq.Difficulty = input.Difficulty
 
     return database.DB.Save(&mcq).Error
 }

@@ -25,3 +25,7 @@ func GetRedisConfig() string {
 func GetJWTSecret() string {
     return os.Getenv("JWT_SECRET")
 }
+
+func GetPort() string {
+    return os.Getenv("PORT")
+}

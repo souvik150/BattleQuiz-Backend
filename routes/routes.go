@@ -8,18 +8,39 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine) {
-    auth := r.Group("/auth")
-    {
-        auth.POST("/signup", controllers.SignUp)
-        auth.POST("/login", controllers.Login)
-    }
+	auth := r.Group("/auth")
+	{
+		auth.POST("/signup", controllers.SignUp)
+		auth.POST("/login", controllers.Login)
+	}
 
-    mcqs := r.Group("/mcqs")
-    mcqs.Use(middlewares.AuthMiddleware())
-    {
-        mcqs.POST("/", controllers.CreateMCQ)
-        mcqs.GET("/", controllers.GetMCQs)
-        mcqs.PUT("/:id", controllers.UpdateMCQ)
-        mcqs.DELETE("/:id", controllers.DeleteMCQ)
-    }
+	user := r.Group("/user")
+	user.Use(middlewares.AuthMiddleware())
+	{
+		user.GET("/", controllers.GetUser)
+		// user.PUT("/", controllers.UpdateUser)
+	}
+
+	games := r.Group("/games")
+	games.Use(middlewares.AuthMiddleware())
+	{
+		games.POST("/", controllers.CreateGame)
+		games.GET("/", controllers.GetAllGames)
+		games.GET("/:id", controllers.GetGameByID)
+		games.PUT("/publish/:id", controllers.PublishGame)
+	}
+
+	mcqs := r.Group("/quiz")
+	mcqs.Use(middlewares.AuthMiddleware())
+	{
+		mcqs.POST("/", controllers.CreateQuiz)
+		mcqs.GET("/:game_id", controllers.GetQuizzes)
+	}
+
+	leaderboard := r.Group("/leaderboard")
+	leaderboard.Use(middlewares.AuthMiddleware())
+	{
+		leaderboard.POST("/", controllers.UpdateLeaderboard)
+		leaderboard.GET("/:game_id", controllers.GetLeaderboard)
+	}
 }
