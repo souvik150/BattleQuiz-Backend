@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/pusher/pusher-http-go/v5"
 
+	"github.com/souvik150/BattleQuiz-Backend/config"
 	"github.com/souvik150/BattleQuiz-Backend/database"
 	"github.com/souvik150/BattleQuiz-Backend/models"
 	"github.com/souvik150/BattleQuiz-Backend/services"
@@ -55,13 +56,17 @@ type LeaderboardInput struct {
 	Score  int  `json:"score" binding:"required"`
 }
 
-var pusherClient = pusher.Client{
-	AppID:   "1823253",
-	Key:     "849f5b01c35dfd0fec56",
-	Secret:  "52eae2220b2814b4866e",
-	Cluster: "ap2",
-	Secure:  true,
-}
+var pusherClient = func() pusher.Client {
+	appID, key, secret, cluster, secure := config.GetPusherConfig()
+	return pusher.Client{
+		AppID:   appID,
+		Key:     key,
+		Secret:  secret,
+		Cluster: cluster,
+		Secure:  secure,
+	}
+}()
+
 
 func CreateGame(c *gin.Context) {
 	var input CreateGameInput
